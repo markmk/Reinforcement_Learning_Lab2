@@ -121,13 +121,13 @@ class DQNAgent:
         # Insert your Q-learning code here
         # Tip 1: Observe that the Q-values are stored in the variable target
         # Tip 2: What is the Q-value of the action taken at the last state of the episode?
-        theta = np.zeros(self.batch_size)
+        y = np.zeros(self.batch_size)
 
         for i in range(self.batch_size):  # For every batch
-            theta[i] = reward[i]
+            y[i] = reward[i]
             if not done[i]:
-                theta[i] += self.discount_factor * np.max(target_val[i, :])
-            target[i, action[i]] = theta[-1]
+                y[i] += self.discount_factor * np.max(target_val[i, :])
+            target[i, action[i]] = y[i]
 
         ###############################################################################
         ###############################################################################
