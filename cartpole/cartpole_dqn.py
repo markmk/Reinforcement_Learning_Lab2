@@ -18,7 +18,7 @@ class DQNAgent:
     # Constructor for the agent (invoked when DQN is first called in main)
     def __init__(self, state_size, action_size):
         self.check_solve = False  # If True, stop if you satisfy solution confition
-        self.render = False  # If you want to see Cartpole learning, then change to True
+        self.render = True  # If you want to see Cartpole learning, then change to True
 
         # Get size of state and action
         self.state_size = state_size
@@ -28,7 +28,7 @@ class DQNAgent:
 
         # Set hyper parameters for the DQN. Do not adjust those labeled as Fixed.
         self.discount_factor = 0.95
-        self.learning_rate = 0.005
+        self.learning_rate = 0.01
         self.epsilon = 0.02  # Fixed
         self.batch_size = 32  # Fixed
         self.memory_size = 1000
@@ -56,7 +56,9 @@ class DQNAgent:
     # Tip: Consult https://keras.io/getting-started/sequential-model-guide/
     def build_model(self):
         model = Sequential()
-        model.add(Dense(16, input_dim=self.state_size, activation='relu',
+        model.add(Dense(24, input_dim=self.state_size, activation='relu',
+                        kernel_initializer='he_uniform'))
+        model.add(Dense(24, activation='relu',
                         kernel_initializer='he_uniform'))
         model.add(Dense(self.action_size, activation='linear',
                         kernel_initializer='he_uniform'))
