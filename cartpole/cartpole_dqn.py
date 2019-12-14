@@ -17,7 +17,7 @@ EPISODES = 1000  # Maximum number of episodes
 class DQNAgent:
     # Constructor for the agent (invoked when DQN is first called in main)
     def __init__(self, state_size, action_size):
-        self.check_solve = False  # If True, stop if you satisfy solution confition
+        self.check_solve = True  # If True, stop if you satisfy solution confition
         self.render = True  # If you want to see Cartpole learning, then change to True
 
         # Get size of state and action
@@ -27,13 +27,13 @@ class DQNAgent:
         # Modify here
 
         # Set hyper parameters for the DQN. Do not adjust those labeled as Fixed.
-        self.discount_factor = 0.95
-        self.learning_rate = 0.01
+        self.discount_factor = 0.98
+        self.learning_rate = 0.005
         self.epsilon = 0.02  # Fixed
         self.batch_size = 32  # Fixed
-        self.memory_size = 1000
+        self.memory_size = 2000
         self.train_start = 1000  # Fixed
-        self.target_update_frequency = 1
+        self.target_update_frequency = 5
 
         # Number of test states for Q value plots
         self.test_state_no = 10000
@@ -56,9 +56,9 @@ class DQNAgent:
     # Tip: Consult https://keras.io/getting-started/sequential-model-guide/
     def build_model(self):
         model = Sequential()
-        model.add(Dense(24, input_dim=self.state_size, activation='relu',
+        model.add(Dense(64, input_dim=self.state_size, activation='relu',
                         kernel_initializer='he_uniform'))
-        model.add(Dense(24, activation='relu',
+        model.add(Dense(32, activation='relu',
                         kernel_initializer='he_uniform'))
         model.add(Dense(self.action_size, activation='linear',
                         kernel_initializer='he_uniform'))
@@ -133,7 +133,6 @@ class DQNAgent:
 
         ###############################################################################
         ###############################################################################
-
         # Train the inner loop network
         self.model.fit(update_input, target, batch_size=self.batch_size,
                        epochs=1, verbose=0)
